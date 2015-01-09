@@ -1,11 +1,10 @@
 FROM crosbymichael/golang
-MAINTAINER Miek Gieben <miek@miek.nl> (@miekg)
+MAINTAINER omri@iluz.net
 
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    dnsutils
+RUN apt-get update && apt-get install --no-install-recommends -y dnsutils
 
 ADD . /go/src/github.com/skynetservices/skydns
 RUN go get github.com/skynetservices/skydns
 
 EXPOSE 53
-ENTRYPOINT skydns -machines='${ETCD_PORT_4001_TCP_ADDR}' -domain='${DOMAIN}.'
+ENTRYPOINT skydns -machines="${ETCD_PORT/#tcp/http}" -domain="${DOMAIN#.}." -addr="0.0.0.0:53"
