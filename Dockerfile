@@ -8,4 +8,4 @@ ADD . /go/src/github.com/skynetservices/skydns
 RUN go get github.com/skynetservices/skydns
 
 EXPOSE 53
-ENTRYPOINT ["skydns"]
+ENTRYPOINT skydns -machines='${ETCD_PORT_4001_TCP_ADDR}' -domain='${DOMAIN}.'
